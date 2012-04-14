@@ -43,6 +43,7 @@ CUSTOM SETTINGS:
 
 Be aware, you should really read the Makefile because you will have to modify when/if you want to add more files (or remove some). In the makefile there is the TARGET= line which is the name of your game. You should change it to the name of the binary you want to generate (default one is just "Game"). 
 Going on in the Makefile, you can see the INCLUDE += and SRCS += (they should be commented), this is where you need to add all your .h and .cpp files for your game. If they aren't here, they won't be processed by the build script.
+Still in the Makefile you can find the CFLAGS and LDFLAGS parameters. CFLAGS defines custom flags you can pass to the compiler and LDFLAGS defines custom flags you can pass to the linker.
 In the Game.pro file (project for QtCreator) you will also have to specify all the .h and .cpp (pretty straightforward) when you want to add new files to the project (don't forget to edit the Makefile too!!) so your IDE will be able to read them.
 
 BUILDING/CLEANING:

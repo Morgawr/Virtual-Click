@@ -1,6 +1,8 @@
 ANGEL_DISABLE_FMOD := $(shell sed -rn 's/^[[:space:]]*\#define[[:space:]]+ANGEL_DISABLE_FMOD[[:space:]]+([[:digit:]])[[:space:]]*$$/\1/p' ../Angel/AngelConfig.h)
 ANGEL_DISABLE_DEVIL := $(shell sed -rn 's/^[[:space:]]*\#define[[:space:]]+ANGEL_DISABLE_DEVIL[[:space:]]+([[:digit:]])[[:space:]]*$$/\1/p' ../Angel/AngelConfig.h)
 CXX = g++
+CFLAGS =
+LDFLAGS =
 TARGET = Game
 ARCH := $(shell uname -m)
 ALLEGRO_LIBS := $(shell allegro-config --libs 2>/dev/null)
@@ -64,7 +66,8 @@ SRCS =								\
 	Main.cpp						\
 	src/ScreenManager.cpp					\
 	src/Screen.cpp						\
-	src/Screens/TestScreen.cpp
+	src/Screens/TestScreen.cpp				\
+	src/Screens/TestScreen2.cpp
 
 ####################################END SOURCES
 
@@ -74,7 +77,7 @@ OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 .PHONY: clean all SWIG-Wrapper
 
 %.o: %.cpp
-	$(CXX) -c $(INCLUDE) -Wno-write-strings -Wno-deprecated -o $@ $^
+	$(CXX) $(CFLAGS) -c $(INCLUDE) -Wno-write-strings -Wno-deprecated -o $@ $^
 
 all: $(TARGET)
 
@@ -87,7 +90,7 @@ SWIG-Wrapper:
 $(WRAPPER): SWIG-Wrapper
 
 $(TARGET): $(LIBANGEL) $(OBJS) $(SYSOBJS) $(WRAPPER)
-	$(CXX) -o $@ $(OBJS) $(SYSOBJS) $(LIBS) $(SHLIBS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(SYSOBJS) $(LIBS) $(SHLIBS)
 	cp -p ../Angel/Scripting/EngineScripts/*.lua Resources/Scripts
 
 clean:

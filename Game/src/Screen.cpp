@@ -1,18 +1,23 @@
 #include <Screen.h>
+#include <ScreenManager.h>
 
-Screen::Screen(bool isPopup)
+Screen::Screen(bool isPopup, bool isPausable, bool isHideable) :
+    _isPopup(isPopup),
+    _isPausable(isPausable),
+    _isHideable(isHideable)
 {
-	this->_isPopup = isPopup;
+
 }
 
 void Screen::Start()
 {
-	//nothing to be done here yet
+    this->_isHidden = false;
+    this->_isPaused = false;
 }
 
 void Screen::Stop()
 {
-	std::vector<Renderable*>::iterator it = _objects.begin();
+    std::vector<Renderable*>::iterator it = _objects.begin();
 
 	while(_objects.end() != it)
 	{
@@ -33,7 +38,37 @@ void Screen::Stop()
 
 void Screen::Update(float dt)
 {
-	//nothing here yet, might want to add a stopwatch/counter or something for achievements??
+   this->_HandleScreens();
+}
+
+void Screen::_HandleScreens()
+{
+    this->_isActive = theScreenManager.IsScreenActive(this);
+    this->_isCovered = theScreenManager.IsScreenCovered(this);
+
+    //Should we pause the screen? TODO
+    if(!this->_isActive &&
+       this->_isPausable &&
+       !this->_isPaused)
+    {
+        _Pause(true);
+    }
+    else if(this->_isActive && this->_isPaused)
+    {
+        _Pause(false); //resume
+    }
+
+    //Should we stop drawing?
+    if(this->_isCovered &&
+        this->_isHideable &&
+        !this->_isHidden)
+    {
+        _Show(false);
+    }
+    else if(!this->_isCovered && this->_isHidden)
+    {
+        _Show(true);
+    }
 }
 
 void Screen::Render()
@@ -48,5 +83,36 @@ void Screen::SoundEnded(AngelSoundHandle sound)
 
 void Screen::ReceiveMessage(Message* message)
 {
-	//in case we need global message handling for all screens
+    //for global message broadcasting
+}
+
+void Screen::_Pause(bool value)
+{
+    this->_isPaused = value;
+}
+
+void Screen::_Show(bool value)
+{
+    if(value) //Put stuff back to theWorld
+    {
+        std::vector<Renderable*>::iterator it = _objects.begin();
+
+        while(_objects.end() != it)
+        {
+            theWorld.Add(*it); //TODO add different layers for objects
+            it++;
+        }
+    }
+    else
+    {
+        std::vector<Renderable*>::iterator it = _objects.begin();
+
+        while(_objects.end() != it)
+        {
+            theWorld.Remove(*it);
+            it++;
+        }
+    }
+
+    this->_isHidden = !value;
 }

@@ -41,10 +41,7 @@ Screen* ScreenManager::GetCurrentScreen()
 
 void ScreenManager::Render()
 {
-/*  for(std::vector<Screen*>::iterator it = _screens.begin(); it != _screens.end(); ++it)
-  {
-	  (*it)->Render();
-  }*/ //Still have to understand how this works
+
 }
 
 void ScreenManager::ReceiveMessage(Message* message)
@@ -61,35 +58,33 @@ bool ScreenManager::IsScreenActive(Screen *screen)
 {
 	std::deque<Screen*>::iterator it = std::find(_screens.begin(),_screens.end(), screen);
 	if(it == _screens.end())
-		throw "Screen is not inside list of screens";
-
-	return !(_screens.front() == screen);
+        throw "Screen is not inside list of screens"; //TODO maybe use std::exception
+    return (_screens.front() == screen);
 }
 
 bool ScreenManager::IsScreenCovered(Screen *screen)
 {
 	std::deque<Screen*>::iterator it = std::find(_screens.begin(),_screens.end(), screen);
 	if(it == _screens.end())
-		throw "Screen is not inside list of screens";
+        throw "Screen is not inside list of screens";
 
 	bool notPopup = false;
-	while(++it != _screens.end())
+    while(it-- != _screens.begin())
 	{
 		if(!(*it)->IsPopup())
 		{
-			notPopup = true;
+            notPopup = true;
 			break;
 		}
 	}
-
 	return notPopup;
 }
 
 void ScreenManager::AddScreen(Screen *screen)
 {
-	_screens.push_back(screen);
+    _screens.push_front(screen);
 	theWorld.Add(screen);
-	screen->Start();
+    screen->Start();
 }
 
 void ScreenManager::RemoveScreen(Screen *screen)

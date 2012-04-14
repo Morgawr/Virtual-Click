@@ -1,8 +1,9 @@
 #include <TestScreen.h>
-
+#include <TestScreen2.h>
+#include <ScreenManager.h>
 
 //cTor
-TestScreen::TestScreen()
+TestScreen::TestScreen() : Screen()
 {
 
 }
@@ -19,12 +20,17 @@ void TestScreen::Start()
         timer = 0.0f;
         mycircle->SetPosition(x,y);
         mycircle->SetColor(0,100,0);
+        this->_objects.push_back(mycircle);
         theWorld.Add(mycircle);
 }
 
 void TestScreen::Update(float dt)
 {
         Screen::Update(dt);
+
+        if(this->_isPaused)
+            return;
+
         timer += dt;
 
         if(timer >= 0.33)
@@ -32,8 +38,8 @@ void TestScreen::Update(float dt)
             y += step;
             mycircle->SetPosition(x,y);
             timer = 0.0f;
+            theScreenManager.AddScreen(new TestScreen2()); //we add a screen to demonstrate that this screen stops updating
         }
-
         if(y > 10)
             step = -1;
         if(y < -10)

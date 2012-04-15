@@ -29,6 +29,7 @@ private:
   void _Pause(bool value); //pass "true" to stop updating, "false" to resume
   void _Show(bool value); //pass "true" to show stuff, "false" to hide the screen
   void _HandleScreens();
+  void _StartObjects(); //connects all the _objects to theWorld
 
 protected:
   std::vector<Renderable*> _objects; //list of objects we draw on screen

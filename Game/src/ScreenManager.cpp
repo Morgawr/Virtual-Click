@@ -105,15 +105,10 @@ void ScreenManager::RemoveScreen(Screen *screen)
         del_screen = *it;
         del_screen->MarkForDeletion();
         _toRemove.push_front(del_screen);
+        /* we don't increment the counter here because we want to remove
+          all the screens from our screen till begin() and not till end().
+          This means we will go backwards through the list */
         it = _screens.erase(it);
-        it++;
-    }while(_screens.end() != it);
+    }while(_screens.begin() != it);
 
 }
-
-/*void ScreenManager::_removeScreen()
-{
-    _toRemove.push_front(_screens.front());
-    //_screens.pop_front();
-    //toRemove->Stop();
-}*/

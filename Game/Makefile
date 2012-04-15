@@ -67,7 +67,8 @@ SRCS =								\
 	src/ScreenManager.cpp					\
 	src/Screen.cpp						\
 	src/Screens/TestScreen.cpp				\
-	src/Screens/TestScreen2.cpp
+	src/Screens/TestScreen2.cpp				\
+	src/Screens/BackgroundScreen.cpp
 
 ####################################END SOURCES
 

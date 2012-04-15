@@ -2,7 +2,7 @@
 #include <ScreenManager.h>
 
 //cTor
-TestScreen2::TestScreen2() : Screen()
+TestScreen2::TestScreen2() : Screen(true)
 {
 
 }
@@ -19,7 +19,6 @@ void TestScreen2::Start()
     mysquare->SetPosition(x,y);
     mysquare->SetColor(0,100,0);
     this->_objects.push_back(mysquare);
-    theWorld.Add(mysquare);
 
     Screen::Start();
 }

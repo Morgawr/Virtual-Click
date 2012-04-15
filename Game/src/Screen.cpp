@@ -15,8 +15,17 @@ void Screen::Start()
     this->_isPaused = false;
     this->_isGettingDeleted = false;
     this->BindMessages();
+    this->_StartObjects();
 }
 
+void Screen::_StartObjects()
+{
+    for(std::vector<Renderable*>::iterator it = _objects.begin();
+        it != _objects.end(); it++)
+    {
+        theWorld.Add(*it);
+    }
+}
 
 void Screen::BindMessages()
 {

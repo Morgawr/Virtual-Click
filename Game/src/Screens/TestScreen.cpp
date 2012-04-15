@@ -20,7 +20,6 @@ void TestScreen::Start()
     mycircle->SetPosition(x,y);
     mycircle->SetColor(0,100,0);
     this->_objects.push_back(mycircle);
-    theWorld.Add(mycircle);
 
     Screen::Start(); //we should call Screen::Start() last so we set up messages only after we set up the local data
 }

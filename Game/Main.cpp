@@ -3,6 +3,7 @@
 
 #include <ScreenManager.h>
 #include <TestScreen.h>
+#include <BackgroundScreen.h>
 
 #include <iostream>
 
@@ -21,9 +22,8 @@ int main(int argc, char* argv[])
 
   // CREATING LOGS
 
-  //adds the default grid so you can more easily place Actors
-  theWorld.Add(new GridActor(), -1);
   theWorld.SetGameManager(&theScreenManager);
+  theScreenManager.AddScreen(new BackgroundScreen(Color(0,0,0)));
   theScreenManager.AddScreen(new TestScreen());
 
   // do all your setup first, because this function won't return until you're exiting

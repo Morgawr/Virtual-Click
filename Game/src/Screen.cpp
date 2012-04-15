@@ -13,7 +13,16 @@ void Screen::Start()
 {
     this->_isHidden = false;
     this->_isPaused = false;
+    this->_isGettingDeleted = false;
+    this->BindMessages();
 }
+
+
+void Screen::BindMessages()
+{
+    //Do global message binding for keyboard and stuff here
+}
+
 
 void Screen::Stop()
 {
@@ -36,9 +45,21 @@ void Screen::Stop()
 	this->Destroy();
 }
 
+void Screen::MarkForDeletion()
+{
+    this->_isGettingDeleted = true;
+}
+
 void Screen::Update(float dt)
 {
-   this->_HandleScreens();
+    if(this->_isGettingDeleted)
+    {
+        this->_isPaused = true; //we pause and stop drawing the screen
+        this->_isHidden = true;
+        return;
+    }
+
+    this->_HandleScreens();
 }
 
 void Screen::_HandleScreens()
@@ -46,7 +67,7 @@ void Screen::_HandleScreens()
     this->_isActive = theScreenManager.IsScreenActive(this);
     this->_isCovered = theScreenManager.IsScreenCovered(this);
 
-    //Should we pause the screen? TODO
+    //Should we pause the screen?
     if(!this->_isActive &&
        this->_isPausable &&
        !this->_isPaused)

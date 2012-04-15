@@ -40,11 +40,10 @@ protected:
   static ScreenManager *s_ScreenManager;
 
 private:
-  //Functions
-  void _removeScreen(); //Removes the top-most screen
 
   //Fields
   std::deque<Screen*> _screens;
+  std::deque<Screen*> _toRemove;
 };
 
 

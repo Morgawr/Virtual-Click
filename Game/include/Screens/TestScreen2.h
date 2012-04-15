@@ -13,6 +13,7 @@ public:
         TestScreen2();
 
         void Start();
+        void BindMessages();
         void Stop();
         void Update(float dt);
         void Render();
@@ -23,7 +24,11 @@ public:
 protected:
 
 private:
-
+        Actor* mysquare;
+        int x;
+        int y;
+        float timer;
+        int step;
 
 };
 

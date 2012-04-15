@@ -13,6 +13,7 @@ public:
         TestScreen();
 
         void Start();
+        void BindMessages();
         void Stop();
         void Update(float dt);
         void Render();

@@ -13,12 +13,15 @@ public:
          bool isHideable = true);
 
   virtual void Start();
+  virtual void BindMessages(); //function that binds messages
   virtual void Stop(); //calls remove on all _objects and deletes them
   virtual void Update(float dt);
   virtual void Render();
 
   virtual void ReceiveMessage(Message *message);
   virtual void SoundEnded(AngelSoundHandle sound);
+
+  void MarkForDeletion();
 
   inline bool IsPopup() { return _isPopup; }
 
@@ -36,6 +39,7 @@ protected:
   bool _isHidden; //if the screen is hidden (aka not drawing)
   bool _isActive; //if the screen is the topmost
   bool _isCovered; //if the screen is covered (by a popup = not covered)
+  bool _isGettingDeleted; //if the screen is getting removed by the ScreenManager
 };
 
 #endif // SCREEN_H

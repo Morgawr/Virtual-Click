@@ -23,7 +23,9 @@ int main(int argc, char* argv[])
   // CREATING LOGS
 
   theWorld.SetGameManager(&theScreenManager);
-  theScreenManager.AddScreen(new BackgroundScreen(Color(0,0,0)));
+  FullScreenActor* fs = new FullScreenActor();
+  fs->SetColor(Color(255,255,255));
+  theScreenManager.AddScreen(new BackgroundScreen(fs));
   theScreenManager.AddScreen(new TestScreen());
 
   // do all your setup first, because this function won't return until you're exiting

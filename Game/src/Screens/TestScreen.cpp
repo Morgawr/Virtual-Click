@@ -21,6 +21,11 @@ void TestScreen::Start()
     mycircle->SetColor(0,100,0);
     this->_objects.push_back(mycircle);
 
+    TextActor* text = new TextActor("Console","Press Right Arrow to load next screen.\nThis screen just shows a circle going up and down :)",TXT_Center);
+    text->SetPosition(0,-1);
+    text->SetColor(0,0,0);
+    this->_objects.push_back(text);
+
     Screen::Start(); //we should call Screen::Start() last so we set up messages only after we set up the local data
 }
 

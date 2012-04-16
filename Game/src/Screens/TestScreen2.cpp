@@ -2,7 +2,7 @@
 #include <ScreenManager.h>
 
 //cTor
-TestScreen2::TestScreen2() : Screen(true)
+TestScreen2::TestScreen2() : Screen()
 {
 
 }
@@ -20,12 +20,17 @@ void TestScreen2::Start()
     mysquare->SetColor(0,100,0);
     this->_objects.push_back(mysquare);
 
+    TextActor* text = new TextActor("Console","Press Left Arrow to go back to the previous screen.\nThis screen shows a square moving left and right :D",TXT_Center);
+    text->SetPosition(0,-1);
+    text->SetColor(0,0,0);
+    this->_objects.push_back(text);
+
     Screen::Start();
 }
 
 void TestScreen2::BindMessages()
 {
-    theSwitchboard.SubscribeTo(this,"Next Screen");
+    theSwitchboard.SubscribeTo(this,"Previous Screen");
 }
 
 void TestScreen2::Update(float dt)
@@ -61,7 +66,7 @@ void TestScreen2::ReceiveMessage(Message *message)
     if(this->_isPaused)
         return;
 
-    if(message->GetMessageName() == "Next Screen")
+    if(message->GetMessageName() == "Previous Screen")
         theScreenManager.RemoveScreen(this);
 }
 

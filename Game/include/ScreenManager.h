@@ -13,6 +13,9 @@
 /* Singleton of my ScreenManager, it handles screens and shit in the game */
 #define theScreenManager ScreenManager::GetInstance()
 
+/* Offset for the screen layer number */
+#define SCREEN_LAYER_OFFSET 1000
+
 class ScreenManager : public GameManager
 {
 public:

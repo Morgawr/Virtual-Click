@@ -18,11 +18,13 @@ void TestScreen2::Start()
     timer = 0.0f;
     mysquare->SetPosition(x,y);
     mysquare->SetColor(0,100,0);
+    mysquare->SetLayer(this->_layer+1);
     this->_objects.push_back(mysquare);
 
     TextActor* text = new TextActor("Console","Press Left Arrow to go back to the previous screen.\nThis screen shows a square moving left and right :D",TXT_Center);
     text->SetPosition(0,-1);
     text->SetColor(0,0,0);
+    text->SetLayer(this->_layer+2);
     this->_objects.push_back(text);
 
     Screen::Start();

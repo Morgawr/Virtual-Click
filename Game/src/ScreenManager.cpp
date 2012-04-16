@@ -81,6 +81,7 @@ void ScreenManager::AddScreen(Screen *screen)
 {
     _screens.push_front(screen);
     theWorld.Add(screen);
+    screen->SetLayer(_screens.size()*SCREEN_LAYER_OFFSET); //we multiply the screen position with the screen layer offset for rendering purposes (so we don't overlap)
     screen->Start();
 }
 

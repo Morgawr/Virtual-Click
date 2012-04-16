@@ -25,6 +25,8 @@ public:
 
   inline bool IsPopup() { return _isPopup; }
 
+  inline void SetLayer(int layer) { _screenLayer = layer; }
+
 private:
   void _Pause(bool value); //pass "true" to stop updating, "false" to resume
   void _Show(bool value); //pass "true" to show stuff, "false" to hide the screen
@@ -41,6 +43,7 @@ protected:
   bool _isActive; //if the screen is the topmost
   bool _isCovered; //if the screen is covered (by a popup = not covered)
   bool _isGettingDeleted; //if the screen is getting removed by the ScreenManager
+  int _screenLayer; //Layer positioning assigned by the ScreenManager, you should always add this to your Actor's layer so you don't risk overlapping
 };
 
 #endif // SCREEN_H

@@ -1,19 +1,21 @@
 
 INTRODUCTION:
 
-This project is a simple template to quickly set up small projects for game development with Angel-Engine (http://code.google.com/p/angel-engine/). It's made to be used and compiled with QtCreator (so far at least, in the future... who knows), it defaults to 64bit architecture but with a bit of fiddling it can be applied to 32bit as well (just need to change around some parameters in Game.pro.user I guess). 
+This project used to be a simple template to handle game state management for Angel-Engine (http://code.google.com/p/angel-engine/). Since then I decided to have it evolve a bit, I'm planning to make this project a simple engine to create adventure stories/games, this means mostly point & click games and interactive games (or Visual Novels). It's made to be used and compiled with QtCreator (so far at least, in the future... who knows), it works for both 32 and 64 bit architecture. 
 
 WHAT IS IT:
 
-It contains a Game State manager, a set of classes that handle swapping around screens in your game without having to set up some kind of complex finite state machine or if/else chain. The developer just has to fiddle around with the screen class, inherit from it and start coding straight away.
+It contains a Game State manager, a set of classes that handle swapping around screens in your game without having to set up some kind of complex finite state machine or if/else chain. The developer just has to fiddle around with the screen class, inherit from it and start coding straight away. It also contains the basic classes used to create a simple point&click game.
 
 HOW TO USE:
 
-To install and use this template (as base for your game) you need to have AngelEngine already compiled in the base path of your game, so the project will be able to find the headers and libraries required to compile.
+To install and use this engine you need to have AngelEngine already compiled in the base path of your game, so the project will be able to find the headers and libraries required to compile.
 Your directory structure should look like this:
 >project/
 	|
 	|-> Angel/
+	|
+	|-> ClientGame/ (remember to build the makefile at least once, it generates some .cpp files inside Angel/ that we will need!)
 	|
 	|-> IntroGame/ (if you extract the default AngelEngine .zip)
 	|
@@ -21,12 +23,13 @@ Your directory structure should look like this:
 	|
 	|-> GameJam-Mac.xcodeproj/ (if you extract the default AngelEngine .zip)
 	|
-	|-> Tools/
+	|-> Tools/ 
 
 
-inside "project" you should clone this git repository so in the end you will have a project/Game/ folder with all the source files you need. 
+inside "project" you should clone this git repository so in the end you will have a project/Game/ folder with all the source files you need.
+Remember to first com
 
-To start working on the project you should open the file project/Game.pro, which will iteratively load everything (QtCreator will probably complain about the target platform not being the same as the original project, just tell it to adjust the settings). I repeat: this is for 64bit and for a very specific pathname (from my computer). It will probably require you to fiddle a bit with Game.pro.user (let me know how to improve this, I plan to set up a script in the future).
+To start working on the project you should open the file project/Game.pro, which will iteratively load everything (QtCreator will probably complain about the target platform not being the same as the original project, just tell it to adjust the settings). It will probably require you to fiddle with Game.pro.user (let me know how to improve this, I plan to set up a script in the future) to recognize the correct pathname for your project, since at the moment it has my own system's hardcoded in. I plan (hope) to make some scripts to automate this.
 
 DIRECTORY STRUCTURE:
 
@@ -37,6 +40,7 @@ src/ - directory with all the sources for your game
 src/Screens - directory with some screens you may want to edit/add/improve (new screens should go here, but feel free to put them wherever you want)
 include/ - directory with all the headers for your game
 include/Screens/ - directory with some headers for your screens
+Resources/ - directory that contains all the resources (data and script) used for your game, pretty self intuitive
 Makefile - This is the makefile you need to run to compile your project (QtCreator should do it for you if the project is set up correctly)
 
 CUSTOM SETTINGS:
@@ -49,12 +53,11 @@ In the Game.pro file (project for QtCreator) you will also have to specify all t
 BUILDING/CLEANING:
 
 You can do this directly inside of QtCreator. If you prefer to do it via command line, just type "make" to generate an executable or "make clean" to remove all the object files and binaries.
-
 You can also do "make publish" to assemble all your content in a single script and deploy it. (THIS IS STILL EXPERIMENTAL AND NOT SUPPORTED)
 
 
 CREDITS:
 
-This template was written by me, Morgawr. You can find me at morgawr@gmail.com or on github if you need to contact me directly.
+This project was written by me, Morgawr. You can find me at morgawr@gmail.com or on github if you need to contact me directly.
 The engine (Angel Engine) can be found here: http://code.google.com/p/angel-engine/
 

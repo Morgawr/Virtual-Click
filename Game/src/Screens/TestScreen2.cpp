@@ -1,5 +1,6 @@
 #include <TestScreen2.h>
 #include <ScreenManager.h>
+#include <DialogueScreen.h>
 
 //cTor
 TestScreen2::TestScreen2() : Screen()
@@ -17,11 +18,11 @@ void TestScreen2::Start()
     step = 1;
     timer = 0.0f;
     mysquare->SetPosition(x,y);
-    mysquare->SetColor(0,100,0);
+	mysquare->SetColor(0,1.0,0);
     mysquare->SetLayer(this->_layer+1);
     this->_objects.push_back(mysquare);
 
-    TextActor* text = new TextActor("Console","Press Left Arrow to go back to the previous screen.\nThis screen shows a square moving left and right :D",TXT_Center);
+	TextActor* text = new TextActor("Console","Press Left Arrow to go back to the previous screen.\nThis screen shows a square moving left and right :D\nPress Right Arrow to open a dialogue screen.",TXT_Center);
     text->SetPosition(0,-1);
     text->SetColor(0,0,0);
     text->SetLayer(this->_layer+2);
@@ -33,6 +34,7 @@ void TestScreen2::Start()
 void TestScreen2::BindMessages()
 {
     theSwitchboard.SubscribeTo(this,"Previous Screen");
+	theSwitchboard.SubscribeTo(this,"Next Screen");
 }
 
 void TestScreen2::Update(float dt)
@@ -70,6 +72,8 @@ void TestScreen2::ReceiveMessage(Message *message)
 
     if(message->GetMessageName() == "Previous Screen")
         theScreenManager.RemoveScreen(this);
+	else if(message->GetMessageName() == "Next Screen")
+		theScreenManager.AddScreen(new DialogueScreen(Color(0,0,0,0.9)));
 }
 
 void TestScreen2::SoundEnded(AngelSoundHandle sound)

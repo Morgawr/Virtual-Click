@@ -10,26 +10,26 @@
 class TestScreen : public Screen
 {
 public:
-        TestScreen();
+    TestScreen();
 
-        void Start();
-        void BindMessages();
-        void Stop();
-        void Update(float dt);
-        void Render();
+    void Start();
+    void BindMessages();
+    void Stop();
+    void Update(float dt);
+    void Render();
 
-        void ReceiveMessage(Message *message);
-        void SoundEnded(AngelSoundHandle sound);
+    void ReceiveMessage(Message *message);
+    void SoundEnded(AngelSoundHandle sound);
 
 protected:
 
 private:
 
-        Actor* mycircle;
-        int x;
-        int y;
-        float timer;
-        int step;
+    Actor* mycircle;
+    int x;
+    int y;
+    float timer;
+    int step;
 
 };
 

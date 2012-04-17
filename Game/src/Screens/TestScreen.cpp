@@ -18,7 +18,7 @@ void TestScreen::Start()
     step = 1;
     timer = 0.0f;
     mycircle->SetPosition(x,y);
-    mycircle->SetColor(0,100,0);
+	mycircle->SetColor(0,1.0,0);
     mycircle->SetLayer(this->_layer+1);
     this->_objects.push_back(mycircle);
 

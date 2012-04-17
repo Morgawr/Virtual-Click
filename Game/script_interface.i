@@ -3,5 +3,5 @@
 
 %module angel
 %{
-//#include "../../../ClientGame/<INCLUDE_HEADER.H>"
+//#include "../../../Game/<INCLUDE_HEADER.H>"
 %}

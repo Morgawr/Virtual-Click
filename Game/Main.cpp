@@ -18,13 +18,11 @@ int main(int argc, char* argv[])
   //		bool antiAliasing		default: false
   //		bool fullScreen			default: false
 
-  theWorld.Initialize(800,600,"Game");
-
-  // CREATING LOGS
+  theWorld.Initialize(1024,768,"Game");
 
   theWorld.SetGameManager(&theScreenManager);
   FullScreenActor* fs = new FullScreenActor();
-  fs->SetColor(Color(255,255,255));
+  fs->SetColor(Color(1,1,1));
   theScreenManager.AddScreen(new BackgroundScreen(fs));
   theScreenManager.AddScreen(new TestScreen());
 

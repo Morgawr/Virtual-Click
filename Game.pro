@@ -5,7 +5,9 @@ HEADERS += \
     Game/include/Screen.h \
     Game/include/Screens/TestScreen.h \
     Game/include/Screens/TestScreen2.h \
-    Game/include/Screens/BackgroundScreen.h
+    Game/include/Screens/BackgroundScreen.h \
+    Game/include/Screens/DialogueScreen.h \
+    Angel/Scripting/LuaModule.h
 
 SOURCES += \
     Angel/Scripting/Interfaces/AngelLuaWrapping.cpp \
@@ -15,6 +17,7 @@ SOURCES += \
     Game/src/Screen.cpp \
     Game/src/Screens/TestScreen.cpp \
     Game/src/Screens/TestScreen2.cpp \
-    Game/src/Screens/BackgroundScreen.cpp
+    Game/src/Screens/BackgroundScreen.cpp \
+    Game/src/Screens/DialogueScreen.cpp
 
 OTHER_FILES +=

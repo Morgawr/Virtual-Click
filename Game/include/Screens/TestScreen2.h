@@ -10,25 +10,25 @@
 class TestScreen2 : public Screen
 {
 public:
-        TestScreen2();
+	TestScreen2();
 
-        void Start();
-        void BindMessages();
-        void Stop();
-        void Update(float dt);
-        void Render();
+	void Start();
+	void BindMessages();
+	void Stop();
+	void Update(float dt);
+	void Render();
 
-        void ReceiveMessage(Message *message);
-        void SoundEnded(AngelSoundHandle sound);
+	void ReceiveMessage(Message *message);
+	void SoundEnded(AngelSoundHandle sound);
 
 protected:
 
 private:
-        Actor* mysquare;
-        int x;
-        int y;
-        float timer;
-        int step;
+	Actor* mysquare;
+	int x;
+	int y;
+	float timer;
+	int step;
 
 };
 

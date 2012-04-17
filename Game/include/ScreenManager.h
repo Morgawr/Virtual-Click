@@ -14,7 +14,7 @@
 #define theScreenManager ScreenManager::GetInstance()
 
 /* Offset for the screen layer number */
-#define SCREEN_LAYER_OFFSET 1000
+#define SCREEN_LAYER_OFFSET 10
 
 class ScreenManager : public GameManager
 {

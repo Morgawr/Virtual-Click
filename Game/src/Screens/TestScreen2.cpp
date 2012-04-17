@@ -73,7 +73,7 @@ void TestScreen2::ReceiveMessage(Message *message)
     if(message->GetMessageName() == "Previous Screen")
         theScreenManager.RemoveScreen(this);
 	else if(message->GetMessageName() == "Next Screen")
-		theScreenManager.AddScreen(new DialogueScreen(Color(0,0,0,0.9)));
+		theScreenManager.AddScreen(new DialogueScreen("Resources/Dialogues/example_message.lua",Color(0,0,0,0.9)));
 }
 
 void TestScreen2::SoundEnded(AngelSoundHandle sound)

@@ -5,12 +5,13 @@
 
 //cTor
  //= Color(0,0,0,0.5f)
-DialogueScreen::DialogueScreen(Color bgColor) : Screen(true),
+DialogueScreen::DialogueScreen(const std::string dialogueScript, Color bgColor) : Screen(true),
 	_timer(0),
 	_letterCountPerLine(0),
 	_letterCounter(0),
 	_lineCounter(0),
-	_blockedText(false)
+	_blockedText(false),
+	_scriptFile(dialogueScript)
 {
 	_backgroundColor = new Actor();
 	_backgroundColor->SetColor(bgColor);
@@ -20,13 +21,22 @@ void DialogueScreen::Start()
 {
 
 	lua_State* L = LuaScriptingModule::GetLuaState();
-	luaL_dofile(L, "Resources/Dialogues/example_message.lua");
-	lua_getglobal(L,"dialogue_body");
-	assert(lua_isstring(L,-1) == 1);
+	assert(luaL_dofile(L, _scriptFile.c_str()) == 0);
+
+	lua_getglobal(L,"dialogue_body"); //load the message
+	assert(lua_isstring(L,-1));
 	_message = lua_tostring(L,-1);
 	lua_pop(L,1);
 	lua_pushnil(L);
 	lua_setglobal(L, "dialogue_body");
+
+	lua_getglobal(L,"dialogue_speed"); //load the speed
+	assert(lua_isnumber(L,-1));
+	_speed = lua_tonumber(L,-1);
+	lua_pop(L,1);
+	lua_pushnil(L);
+	lua_setglobal(L,"dialogue_speed");
+
 	_messageOnScreen = new TextActor("Console","");
 	_messageOnScreen->SetLayer(this->_layer+2);
 	_messageOnScreen->SetColor(Color(1,1,1));
@@ -43,7 +53,6 @@ void DialogueScreen::Start()
 	this->_objects.push_back(_backgroundColor);
 	this->_objects.push_back(_messageOnScreen);
 
-	_speed = 0.05;
 	Screen::Start();
 }
 

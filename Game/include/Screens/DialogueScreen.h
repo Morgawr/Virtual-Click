@@ -20,7 +20,7 @@
 class DialogueScreen : public Screen
 {
 public:
-	DialogueScreen(Color bgColor);
+	DialogueScreen(std::string dialogueScript, Color bgColor = Color(0,0,0,0.9));
 
 	void Start();
 	void BindMessages();
@@ -45,6 +45,7 @@ private:
 	int _letterCounter; //number of letters already printed (total) on screen
 	int _lineCounter; //number of lines shown on screen
 	bool _blockedText; //check if the text is blocked waiting to advance
+	std::string _scriptFile; //the .lua file that holds all the data for the dialogue
 };
 
 

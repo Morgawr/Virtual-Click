@@ -70,7 +70,8 @@ void TestScreen::ReceiveMessage(Message *message)
         return;
 
     if(message->GetMessageName() == "Next Screen")
-        theScreenManager.AddScreen(new TestScreen2());
+		//theScreenManager.AddScreen(new TestScreen2());
+		theScreenManager.SwapScreen(new TestScreen2());
 }
 
 void TestScreen::SoundEnded(AngelSoundHandle sound)

@@ -1,4 +1,5 @@
 #include <TestScreen2.h>
+#include <TestScreen.h>
 #include <ScreenManager.h>
 #include <DialogueScreen.h>
 
@@ -71,9 +72,10 @@ void TestScreen2::ReceiveMessage(Message *message)
         return;
 
     if(message->GetMessageName() == "Previous Screen")
-        theScreenManager.RemoveScreen(this);
+		//theScreenManager.RemoveScreen(this);
+		theScreenManager.SwapScreen(new TestScreen());
 	else if(message->GetMessageName() == "Next Screen")
-		theScreenManager.AddScreen(new DialogueScreen("Resources/Dialogues/example_message.lua",Color(0,0,0,0.9)));
+		theScreenManager.AddScreen(new DialogueScreen("example_message.lua",Color(0,0,0,0.9)));
 }
 
 void TestScreen2::SoundEnded(AngelSoundHandle sound)

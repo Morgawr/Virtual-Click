@@ -113,3 +113,10 @@ void ScreenManager::RemoveScreen(Screen *screen)
     }while(_screens.begin() != it);
 
 }
+
+void ScreenManager::SwapScreen(Screen *screen)
+{
+	this->RemoveScreen();
+	this->AddScreen(screen);
+}
+

@@ -6,7 +6,7 @@
 
 
 //ctor
-TransitionScreen::TransitionScreen(Screen *newScreen, Color bg) : Screen(true,false,false)
+TransitionScreen::TransitionScreen(Screen *newScreen, Color bg) : Screen(true,true,false)
 {
 	_background = new FullScreenActor();
 	bg.A = 0;
@@ -44,7 +44,7 @@ void TransitionScreen::Update(float dt)
 
 	if(_inTransition)
 	{
-		_color.A += 0.01;
+		_color.A += 0.02;
 		if(_color.A > 1)
 		{
 			_inTransition = false;
@@ -53,7 +53,7 @@ void TransitionScreen::Update(float dt)
 	}
 	else
 	{
-		_color.A -= 0.01;
+		_color.A -= 0.02;
 		if(_color.A <= 0)
 		{
 			theScreenManager.RemoveScreen();

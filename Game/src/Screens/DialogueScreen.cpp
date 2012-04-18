@@ -5,15 +5,23 @@
 #include <assert.h>
 
 //cTor
- //= Color(0,0,0,0.5f)
 DialogueScreen::DialogueScreen(const std::string dialogueScript, Color bgColor) : Screen(true),
 	_timer(0),
 	_letterCountPerLine(0),
 	_letterCounter(0),
 	_lineCounter(0),
-	_blockedText(false),
-	_scriptFile(PATH_DIALOGUE + dialogueScript)
+	_blockedText(false)
 {
+	if(dialogueScript.rfind(".lua") == std::string::npos)
+	{
+		//default speed
+		_speed = 0.03;
+		_message = dialogueScript;
+	}
+	else
+	{
+		_scriptFile = PATH_DIALOGUE + dialogueScript;
+	}
 	_backgroundColor = new Actor();
 	_backgroundColor->SetColor(bgColor);
 }

@@ -21,6 +21,17 @@ void Player::AddItem(std::string name)
 	_inventory.push_back(item);
 }
 
+bool Player::HasItem(std::string name)
+{
+	for(std::vector<Item*>::iterator it = _inventory.begin(); it != _inventory.end(); it++)
+	{
+		if((*it)->GetItemName() == name)
+			return true;
+	}
+
+	return false;
+}
+
 void Player::RemoveItem(std::string name)
 {
 	for(std::vector<Item*>::iterator it = _inventory.begin(); it != _inventory.end(); it++)

@@ -20,6 +20,7 @@ public:
 	void AddItem(std::string name); //adds an item to the player inventory, the name is the script name .lua
 	void RemoveItem(std::string name);
 	Item* GetItem(std::string name);
+	bool HasItem(std::string name); //checks if the player has said item in the inventory
 	const std::vector<Item*> GetInventory();
 
 	void ReceiveMessage(Message *message);

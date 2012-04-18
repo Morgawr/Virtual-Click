@@ -114,9 +114,26 @@ void ScreenManager::RemoveScreen(Screen *screen)
 
 }
 
-void ScreenManager::SwapScreen(Screen *screen)
+void ScreenManager::SwapScreen(Screen *screen, Screen *oldScreen)
 {
-	this->RemoveScreen();
-	this->AddScreen(screen);
+	if(oldScreen == NULL)
+	{
+		this->RemoveScreen();
+		this->AddScreen(screen);
+	}
+	else
+	{
+		std::deque<Screen*>::iterator it = std::find(_screens.begin(),_screens.end(), oldScreen);
+		if(it == _screens.end())
+			throw "Screen is not inside list of screens";
+
+		oldScreen->MarkForDeletion();
+		_toRemove.push_front(oldScreen);
+		it = _screens.erase(it);
+		_screens.insert(it,screen);
+		theWorld.Add(screen);
+		screen->SetLayer(oldScreen->GetLayer());
+		screen->Start();
+	}
 }
 

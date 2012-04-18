@@ -72,6 +72,7 @@ SRCS =								\
 	src/Screens/TestScreen2.cpp				\
 	src/Screens/BackgroundScreen.cpp			\
 	src/Screens/DialogueScreen.cpp				\
+	src/Screens/TransitionScreen.cpp			\
 	src/Entities/Player.cpp					\
 	src/Entities/Item.cpp
 

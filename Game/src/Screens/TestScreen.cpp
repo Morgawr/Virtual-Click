@@ -1,5 +1,6 @@
 #include <TestScreen.h>
 #include <TestScreen2.h>
+#include <TransitionScreen.h>
 #include <ScreenManager.h>
 
 //cTor
@@ -70,8 +71,12 @@ void TestScreen::ReceiveMessage(Message *message)
         return;
 
     if(message->GetMessageName() == "Next Screen")
+	{
+		theScreenManager.AddScreen(new TransitionScreen(new TestScreen2()));
+	}
 		//theScreenManager.AddScreen(new TestScreen2());
-		theScreenManager.SwapScreen(new TestScreen2());
+		//theScreenManager.SwapScreen(new TestScreen2());
+
 }
 
 void TestScreen::SoundEnded(AngelSoundHandle sound)

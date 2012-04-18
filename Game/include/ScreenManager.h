@@ -31,10 +31,11 @@ public:
 
   virtual void AddScreen(Screen* screen);
   virtual void RemoveScreen(Screen* screen = NULL); // Removes the screen, if NULL it removes only the top-most, else it recursively remove all screens
-  virtual void SwapScreen(Screen* screen); //substitutes the top-most screen (while removing it) with the new screen passed as parameter
+  virtual void SwapScreen(Screen* screen, Screen* oldScreen = NULL); //substitutes the selected screen (while removing it) with the new screen passed as parameter
 
   bool IsScreenActive(Screen* screen); // Check if the screen is active (topmost screen)
   bool IsScreenCovered(Screen* screen); // Check if the screens above this are full screens or just popups (aka not covering)
+
 
 protected:
   ScreenManager();

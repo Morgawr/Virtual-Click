@@ -42,10 +42,12 @@ void TestScreen2::Update(float dt)
 {
         Screen::Update(dt);
 
+
+
         if(this->_isPaused)
             return;
 
-        timer += dt;
+		timer += dt;
 
         if(timer >= 0.33)
         {

@@ -26,6 +26,7 @@ public:
   inline bool IsPopup() { return _isPopup; }
 
   inline void SetLayer(int layer) { _screenLayer = layer; }
+  inline int GetLayer() { return _screenLayer; }
 
 private:
   void _Pause(bool value); //pass "true" to stop updating, "false" to resume

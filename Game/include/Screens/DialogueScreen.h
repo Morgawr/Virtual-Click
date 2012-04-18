@@ -35,6 +35,7 @@ protected:
 
 private:
 	void _UpdateText(); //Function that updates the text at a desired speed adding letters all the time
+	void _LoadFromFile(); //Function that loads all the data from the lua file
 
 	std::string _message;
 	TextActor* _messageOnScreen;

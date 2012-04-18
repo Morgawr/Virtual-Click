@@ -1,6 +1,7 @@
 #include <DialogueScreen.h>
 #include <ScreenManager.h>
 #include <Angel/Scripting/LuaModule.h>
+#include <PathNames.h>
 #include <assert.h>
 
 //cTor
@@ -11,7 +12,7 @@ DialogueScreen::DialogueScreen(const std::string dialogueScript, Color bgColor) 
 	_letterCounter(0),
 	_lineCounter(0),
 	_blockedText(false),
-	_scriptFile(dialogueScript)
+	_scriptFile(PATH_DIALOGUE + dialogueScript)
 {
 	_backgroundColor = new Actor();
 	_backgroundColor->SetColor(bgColor);
@@ -20,22 +21,7 @@ DialogueScreen::DialogueScreen(const std::string dialogueScript, Color bgColor) 
 void DialogueScreen::Start()
 {
 
-	lua_State* L = LuaScriptingModule::GetLuaState();
-	assert(luaL_dofile(L, _scriptFile.c_str()) == 0);
-
-	lua_getglobal(L,"dialogue_body"); //load the message
-	assert(lua_isstring(L,-1));
-	_message = lua_tostring(L,-1);
-	lua_pop(L,1);
-	lua_pushnil(L);
-	lua_setglobal(L, "dialogue_body");
-
-	lua_getglobal(L,"dialogue_speed"); //load the speed
-	assert(lua_isnumber(L,-1));
-	_speed = lua_tonumber(L,-1);
-	lua_pop(L,1);
-	lua_pushnil(L);
-	lua_setglobal(L,"dialogue_speed");
+	_LoadFromFile();
 
 	_messageOnScreen = new TextActor("Console","");
 	_messageOnScreen->SetLayer(this->_layer+2);
@@ -54,6 +40,26 @@ void DialogueScreen::Start()
 	this->_objects.push_back(_messageOnScreen);
 
 	Screen::Start();
+}
+
+void DialogueScreen::_LoadFromFile()
+{
+	lua_State* L = LuaScriptingModule::GetLuaState();
+	assert(luaL_dofile(L, _scriptFile.c_str()) == 0);
+
+	lua_getglobal(L,"dialogue_body"); //load the message
+	assert(lua_isstring(L,-1));
+	_message = lua_tostring(L,-1);
+	lua_pop(L,1);
+	lua_pushnil(L);
+	lua_setglobal(L, "dialogue_body");
+
+	lua_getglobal(L,"dialogue_speed"); //load the speed
+	assert(lua_isnumber(L,-1));
+	_speed = lua_tonumber(L,-1);
+	lua_pop(L,1);
+	lua_pushnil(L);
+	lua_setglobal(L,"dialogue_speed");
 }
 
 void DialogueScreen::BindMessages()

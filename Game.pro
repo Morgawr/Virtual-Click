@@ -7,7 +7,10 @@ HEADERS += \
     Game/include/Screens/TestScreen2.h \
     Game/include/Screens/BackgroundScreen.h \
     Game/include/Screens/DialogueScreen.h \
-    Angel/Scripting/LuaModule.h
+    Angel/Scripting/LuaModule.h \
+    Game/include/Entities/Player.h \
+    Game/include/Entities/Item.h \
+    Game/include/PathNames.h
 
 SOURCES += \
     Angel/Scripting/Interfaces/AngelLuaWrapping.cpp \
@@ -18,6 +21,8 @@ SOURCES += \
     Game/src/Screens/TestScreen.cpp \
     Game/src/Screens/TestScreen2.cpp \
     Game/src/Screens/BackgroundScreen.cpp \
-    Game/src/Screens/DialogueScreen.cpp
+    Game/src/Screens/DialogueScreen.cpp \
+    Game/src/Entities/Player.cpp \
+    Game/src/Entities/Item.cpp
 
 OTHER_FILES +=

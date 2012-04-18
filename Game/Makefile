@@ -1,7 +1,7 @@
 ANGEL_DISABLE_FMOD := $(shell sed -rn 's/^[[:space:]]*\#define[[:space:]]+ANGEL_DISABLE_FMOD[[:space:]]+([[:digit:]])[[:space:]]*$$/\1/p' ../Angel/AngelConfig.h)
 ANGEL_DISABLE_DEVIL := $(shell sed -rn 's/^[[:space:]]*\#define[[:space:]]+ANGEL_DISABLE_DEVIL[[:space:]]+([[:digit:]])[[:space:]]*$$/\1/p' ../Angel/AngelConfig.h)
 CXX = g++
-CFLAGS = -g 
+CFLAGS =  
 LDFLAGS = 
 TARGET = Game
 ARCH := $(shell uname -m)
@@ -56,6 +56,7 @@ SYSSRCS = 							\
 INCLUDE += 							\
 	   -Iinclude						\
 	   -Iinclude/Screens					\
+	   -Iinclude/Entities					\
 	   -I.							\
 	   -I..
 
@@ -70,7 +71,9 @@ SRCS =								\
 	src/Screens/TestScreen.cpp				\
 	src/Screens/TestScreen2.cpp				\
 	src/Screens/BackgroundScreen.cpp			\
-	src/Screens/DialogueScreen.cpp
+	src/Screens/DialogueScreen.cpp				\
+	src/Entities/Player.cpp					\
+	src/Entities/Item.cpp
 
 ####################################END SOURCES
 

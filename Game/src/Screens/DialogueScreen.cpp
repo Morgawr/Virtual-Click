@@ -10,13 +10,14 @@ DialogueScreen::DialogueScreen(const std::string dialogueScript, Color bgColor) 
 	_letterCountPerLine(0),
 	_letterCounter(0),
 	_lineCounter(0),
-	_blockedText(false)
+	_blockedText(false),
+	_currentMessage(0)
 {
 	if(dialogueScript.rfind(".lua") == std::string::npos)
 	{
 		//default speed
 		_speed = 0.03;
-		_message = dialogueScript;
+		_messages.push_back(dialogueScript);
 	}
 	else
 	{
@@ -55,9 +56,14 @@ void DialogueScreen::_LoadFromFile()
 	lua_State* L = LuaScriptingModule::GetLuaState();
 	assert(luaL_dofile(L, _scriptFile.c_str()) == 0);
 
-	lua_getglobal(L,"dialogue_body"); //load the message
-	assert(lua_isstring(L,-1));
-	_message = lua_tostring(L,-1);
+	lua_getglobal(L,"dialogue_body"); //load the messages
+	size_t sz = lua_objlen(L, -1);
+	for (size_t i = 1; i <= sz; i++) {
+	   lua_rawgeti(L, -1, i);
+	   _messages.push_back(lua_tostring(L, -1));
+	   lua_pop(L, 1);
+	}
+
 	lua_pop(L,1);
 	lua_pushnil(L);
 	lua_setglobal(L, "dialogue_body");
@@ -89,8 +95,20 @@ void DialogueScreen::Update(float dt)
 		_timer = 0;
 		if(!_blockedText) //update text only if we're not waiting for a key
 		{
-			if(_letterCounter > _message.size())
-				theScreenManager.RemoveScreen(this);
+			if(_letterCounter > _messages[_currentMessage].size())
+			{
+				_currentMessage++;
+				if(_currentMessage == _messages.size())
+				{
+					theScreenManager.RemoveScreen(this);
+					return;
+				}
+				_letterCountPerLine = 0;
+				_letterCounter = 0;
+				_lineCounter = 0;
+				_blockedText = false;
+				_messageOnScreen->SetDisplayString("");
+			}
 			_UpdateText();
 		}
 	}
@@ -99,7 +117,7 @@ void DialogueScreen::Update(float dt)
 
 void DialogueScreen::_UpdateText()
 {
-	if(_letterCounter >= _message.size())
+	if(_letterCounter >= _messages[_currentMessage].size())
 	{
 		_letterCounter++;
 		_blockedText = true;
@@ -109,14 +127,14 @@ void DialogueScreen::_UpdateText()
 	std::string s = this->_messageOnScreen->GetDisplayString();
 
 	if(_letterCountPerLine > theTuning.GetInt("Dialogue_Wrap_Word_Length") &&
-	   (_message[_letterCounter] == ' ' || _letterCountPerLine > theTuning.GetInt("Dialogue_Wrap_Message_Length")) ||
-	   _message[_letterCounter] == '\n') //we need to go to a new line
+	   ( _messages[_currentMessage][_letterCounter] == ' ' || _letterCountPerLine > theTuning.GetInt("Dialogue_Wrap_Message_Length")) ||
+		_messages[_currentMessage][_letterCounter] == '\n') //we need to go to a new line
 	{
 		_letterCountPerLine = 0;
 
-		if(_message[_letterCounter] == '\n')
+		if( _messages[_currentMessage][_letterCounter] == '\n')
 			_letterCounter++;
-		if(_message[_letterCounter] == ' ' ) //avoid printing another space in a newline or duplicating newlines
+		if( _messages[_currentMessage][_letterCounter] == ' ' ) //avoid printing another space in a newline or duplicating newlines
 			_letterCounter++;
 
 		s += '\n';
@@ -131,7 +149,7 @@ void DialogueScreen::_UpdateText()
 
 	}
 
-	s += _message[_letterCounter];
+	s +=  _messages[_currentMessage][_letterCounter];
 	_letterCounter++;
 	_letterCountPerLine++;
 	this->_messageOnScreen->SetDisplayString(s);
@@ -151,8 +169,17 @@ void DialogueScreen::ReceiveMessage(Message *message)
 
 	if(message->GetMessageName() == "Previous Screen")
 		theScreenManager.RemoveScreen(this);
-	else if(message->GetMessageName() == "Advance Text" && _lineCounter+1 >= theTuning.GetInt("Dialogue_Max_Lines"))
+	else if(message->GetMessageName() == "Advance Text")
 	{
+		bool inloop = false;
+		while(_letterCounter < _messages[_currentMessage].size() && !_blockedText)
+		{
+			_UpdateText();
+			inloop = true;
+		}
+		if(inloop)
+			return;
+
 		_blockedText = false;
 		std::string s = _messageOnScreen->GetDisplayString();
 		int index = s.find('\n');

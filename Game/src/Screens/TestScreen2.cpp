@@ -12,8 +12,9 @@ TestScreen2::TestScreen2() : Screen()
 void TestScreen2::Start()
 {
     mysquare = new Actor();
-    mysquare->ChangeSizeTo(5.0f,0.0f);
-    mysquare->SetDrawShape(ADS_Square);
+	mysquare->SetSize(3.0f,3.0f);
+	mysquare->SetDrawShape(ADS_Square);
+
     x = 0;
     y = 0;
     step = 1;
@@ -24,10 +25,10 @@ void TestScreen2::Start()
     this->_objects.push_back(mysquare);
 
 	TextActor* text = new TextActor("Console","Press Left Arrow to go back to the previous screen.\nThis screen shows a square moving left and right :D\nPress Right Arrow to open a dialogue screen.",TXT_Center);
-    text->SetPosition(0,-1);
-    text->SetColor(0,0,0);
-    text->SetLayer(this->_layer+2);
-    this->_objects.push_back(text);
+	text->SetPosition(0,-1);
+	text->SetColor(0,0,0);
+	text->SetLayer(this->_layer+2);
+	this->_objects.push_back(text);
 
     Screen::Start();
 }
@@ -49,7 +50,7 @@ void TestScreen2::Update(float dt)
 
 		timer += dt;
 
-        if(timer >= 0.33)
+		if(timer >= 0.33)
         {
             x += step;
             mysquare->SetPosition(x,y);
@@ -58,7 +59,7 @@ void TestScreen2::Update(float dt)
         if(x > 10)
             step = -1;
         if(x < -10)
-            step = 1;
+			step = 1;
 }
 
 void TestScreen2::Render()
@@ -74,7 +75,6 @@ void TestScreen2::ReceiveMessage(Message *message)
         return;
 
     if(message->GetMessageName() == "Previous Screen")
-		//theScreenManager.RemoveScreen(this);
 		theScreenManager.SwapScreen(new TestScreen());
 	else if(message->GetMessageName() == "Next Screen")
 		theScreenManager.AddScreen(new DialogueScreen("example_message.lua",Color(0,0,0,0.9)));

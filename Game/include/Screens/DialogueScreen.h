@@ -7,14 +7,6 @@
 
 #include <Screen.h>
 
-/*//Max length of the message for forced wrapping
-#define WRAP_MESSAGE_LENGTH 76
-
-//Max length of the message before testing autowrapping around words
-#define WRAP_WORD_LENGTH 70
-
-//Max number of lines in the message shown on screen
-#define MAX_DIALOGUE_LINES 6*/
 
 // This class is a test screen class, it will be to test the game and how it goes :)
 class DialogueScreen : public Screen
@@ -37,10 +29,11 @@ private:
 	void _UpdateText(); //Function that updates the text at a desired speed adding letters all the time
 	void _LoadFromFile(); //Function that loads all the data from the lua file
 
-	std::string _message;
+	std::vector<std::string> _messages;
 	TextActor* _messageOnScreen;
 	Actor* _backgroundColor;
 	float _timer;
+	int _currentMessage;
 	float _speed; //interval at which we update the text
 	int	_letterCountPerLine; //number of letters already printed on screen (reset every newline)
 	int _letterCounter; //number of letters already printed (total) on screen

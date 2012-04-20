@@ -3,8 +3,12 @@
 
 #include <stdafx.h>
 #include <Angel/Scripting/LuaModule.h>
-#include <string>
 
+#include <string>
+#include <map>
+
+
+class ItemState; //forward declaration
 
 // This class holds data for interactable items in the game
 class Item : public Actor
@@ -14,25 +18,26 @@ public:
 	Item(std::string name);
 	Item(Item &ref);
 
+	void Start(); //this function is called after we add the item to the world so we bind events
+
 	void Update(float dt);
 	void Render();
 	void PreDestroy();
 	const std::string GetItemName();
 	Item* CombineWith(Item* item);
+	void ChangeState(std::string newState);
+	void Use();
+
+	void ReceiveMessage(Message *message);
 
 protected:
 
 private:
 	void _LoadFromFile();
-	void _LuaFromString(lua_State* L, const std::string luaName, std::string &property);
 
 	std::string _itemName;
-	std::string _spriteWorld;
-	std::string _spriteInventory;
-	std::string _messageOnSuccess;
-	std::string _messageOnFailure;
-	std::string _workOnItem;
-	std::string _combinedItem;
+	ItemState* _currentState;
+	std::map<std::string,ItemState*> _states;
 
 };
 

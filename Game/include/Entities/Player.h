@@ -7,7 +7,7 @@
 
 #include <Item.h>
 
-#define thePlayer Player::GetInstance();
+#define thePlayer Player::GetInstance()
 
 //This class holds all the data for our player. Inventory and all that stuff
 //it communicates through messaging and normal functions, it delegates all the drawing to the screen
@@ -21,7 +21,9 @@ public:
 	void RemoveItem(std::string name);
 	Item* GetItem(std::string name);
 	bool HasItem(std::string name); //checks if the player has said item in the inventory
-	const std::vector<Item*> GetInventory();
+	void GetInventory(std::vector<Item*>& out);
+	void GetEvents(std::vector<std::string>& out);
+	void PushEvent(std::string event);
 
 	void ReceiveMessage(Message *message);
 
@@ -31,6 +33,7 @@ protected:
 
 private:
 	std::vector<Item*> _inventory;
+	std::vector<std::string> _eventStack;
 };
 
 #endif // PLAYER_H

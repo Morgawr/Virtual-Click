@@ -45,9 +45,14 @@ void Player::RemoveItem(std::string name)
 }
 
 
-const std::vector<Item*> Player::GetInventory()
+void Player::GetInventory(std::vector<Item*> &out)
 {
-	return _inventory;
+	out = _inventory;
+}
+
+void Player::GetEvents(std::vector<std::string> &out)
+{
+	out = _eventStack;
 }
 
 void Player::ReceiveMessage(Message *message)

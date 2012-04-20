@@ -4,6 +4,7 @@
 #include <stdafx.h>
 
 #include <Screen.h>
+#include <Item.h>
 
 
 // This class is a test screen class, it will be to test the game and how it goes (part 2)
@@ -25,6 +26,7 @@ protected:
 
 private:
 	Actor* mysquare;
+	Item* box;
 	int x;
 	int y;
 	float timer;

@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
   theWorld.SetGameManager(&theScreenManager);
   FullScreenActor* fs = new FullScreenActor();
-  fs->SetColor(Color(1,1,1));
+  fs->SetColor(Color(0,0,0));
   theScreenManager.AddScreen(new BackgroundScreen(fs));
   theScreenManager.AddScreen(new TestScreen());
 

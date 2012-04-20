@@ -1,8 +1,7 @@
 #include <DialogueScreen.h>
 #include <ScreenManager.h>
-#include <Angel/Scripting/LuaModule.h>
 #include <PathNames.h>
-#include <assert.h>
+#include <LuaManager.h>
 
 //cTor
 DialogueScreen::DialogueScreen(const std::string dialogueScript, Color bgColor) : Screen(true),
@@ -56,24 +55,9 @@ void DialogueScreen::_LoadFromFile()
 	lua_State* L = LuaScriptingModule::GetLuaState();
 	assert(luaL_dofile(L, _scriptFile.c_str()) == 0);
 
-	lua_getglobal(L,"dialogue_body"); //load the messages
-	size_t sz = lua_objlen(L, -1);
-	for (size_t i = 1; i <= sz; i++) {
-	   lua_rawgeti(L, -1, i);
-	   _messages.push_back(lua_tostring(L, -1));
-	   lua_pop(L, 1);
-	}
+	_messages = LuaManager::FromStringList(L,"dialogue_body");
+	_speed = LuaManager::FromFloat(L,"dialogue_speed");
 
-	lua_pop(L,1);
-	lua_pushnil(L);
-	lua_setglobal(L, "dialogue_body");
-
-	lua_getglobal(L,"dialogue_speed"); //load the speed
-	assert(lua_isnumber(L,-1));
-	_speed = lua_tonumber(L,-1);
-	lua_pop(L,1);
-	lua_pushnil(L);
-	lua_setglobal(L,"dialogue_speed");
 }
 
 void DialogueScreen::BindMessages()

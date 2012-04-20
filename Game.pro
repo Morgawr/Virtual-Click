@@ -11,7 +11,9 @@ HEADERS += \
     Game/include/Entities/Player.h \
     Game/include/Entities/Item.h \
     Game/include/PathNames.h \
-    Game/include/Screens/TransitionScreen.h
+    Game/include/Screens/TransitionScreen.h \
+    Game/include/Utils/LuaManager.h \
+    Game/include/Entities/ItemState.h
 
 SOURCES += \
     Angel/Scripting/Interfaces/AngelLuaWrapping.cpp \
@@ -25,6 +27,8 @@ SOURCES += \
     Game/src/Screens/DialogueScreen.cpp \
     Game/src/Entities/Player.cpp \
     Game/src/Entities/Item.cpp \
-    Game/src/Screens/TransitionScreen.cpp
+    Game/src/Screens/TransitionScreen.cpp \
+    Game/src/Utils/LuaManager.cpp \
+    Game/src/Entities/ItemState.cpp
 
 OTHER_FILES +=

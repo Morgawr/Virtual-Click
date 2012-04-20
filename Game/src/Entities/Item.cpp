@@ -1,33 +1,37 @@
+#include <ItemState.h>
 #include <Item.h>
+#include <string>
 #include <PathNames.h>
-#include <assert.h>
+#include <LuaManager.h>
+
 
 Item::Item(std::string name)
 {
 	this->_itemName = name;
 	_LoadFromFile();
+	_currentState = NULL;
 }
 
 void Item::_LoadFromFile()
 {
 	lua_State* L = LuaScriptingModule::GetLuaState();
-	std::string filename = PATH_BASE_ITEM + _itemName + ".lua";
-	assert(luaL_dofile(L,filename.c_str()));
-	_LuaFromString(L,"spriteWorld",_spriteWorld);
-	_LuaFromString(L,"spriteInventory",_spriteInventory);
-	_LuaFromString(L,"messageOnSuccess",_messageOnSuccess);
-	_LuaFromString(L,"messageOnFailure",_messageOnFailure);
-	_LuaFromString(L,"workOnItem",_workOnItem);
-	_LuaFromString(L,"combinedItem",_combinedItem);
+	std::string filename = PATH_ITEM + _itemName + ".lua";
+	assert(luaL_dofile(L,filename.c_str()) == 0);
+	std::vector<std::string> statelist = LuaManager::FromStringList(L,"states");
+	_states["default"] = new ItemState("default",L,this);
+	for(std::vector<std::string>::iterator it = statelist.begin(); it != statelist.end(); it++)
+	{
+		_states[*it] = new ItemState(*it,L,this);
+	}
 }
 
-void Item::_LuaFromString(lua_State* L, const std::string luaName, std::string &property)
+void Item::Start()
 {
-	lua_getglobal(L,luaName.c_str());
-	assert(lua_isstring(L,-1));
-	property = lua_tostring(L,-1);
-	lua_pop(L,1);
-	lua_pushnil(L);
+	if(_currentState == NULL)
+	{
+		_currentState = _states["default"];
+		_currentState->Activate();
+	}
 }
 
 void Item::Update(float dt)
@@ -42,10 +46,22 @@ void Item::Render()
 
 void Item::PreDestroy()
 {
+	for(std::map<std::string,ItemState*>::iterator it = _states.begin(); it != _states.end(); it++)
+	{
+		delete (*it).second;
+	}
+
+	_states.clear();
+
 	Actor::PreDestroy();
 }
 
 Item* Item::CombineWith(Item *item)
+{
+
+}
+
+void Item::ReceiveMessage(Message *message)
 {
 
 }
@@ -56,4 +72,16 @@ const std::string Item::GetItemName()
 		return _itemName;
 	else
 		return GetName();
+}
+
+void Item::ChangeState(std::string newState)
+{
+	_currentState->Stop();
+	_currentState = _states[newState];
+	_currentState->Activate();
+}
+
+void Item::Use()
+{
+	_currentState->Use();
 }
